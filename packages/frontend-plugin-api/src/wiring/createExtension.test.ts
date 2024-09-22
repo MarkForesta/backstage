@@ -718,7 +718,6 @@ describe('createExtension', () => {
 
     it('should complain when overriding with incompatible output', () => {
       const testExtension = createExtension({
-        namespace: 'test',
         attachTo: { id: 'root', input: 'blob' },
         output: [stringDataRef],
         factory() {
@@ -742,6 +741,35 @@ describe('createExtension', () => {
       ).toThrowErrorMatchingInlineSnapshot(
         `"Refused to override output without also overriding factory"`,
       );
+    });
+
+    it('should not have params unless explicitly defined', () => {
+      const ext = createExtension({
+        attachTo: { id: 'root', input: 'blob' },
+        output: [stringDataRef],
+        factory() {
+          return [stringDataRef('0')];
+        },
+      });
+
+      ext.override({
+        // @ts-expect-error - params are not allowed
+        params: {} as any,
+      });
+
+      ext.override({
+        // @ts-expect-error - params are not provided
+        factory(origFactory, { params }) {
+          return origFactory({
+            // @ts-expect-error - params are not allowed
+            params: {
+              ...params,
+            },
+          });
+        },
+      });
+
+      expect(ext).toBeDefined();
     });
 
     it('should be able to override input values', () => {

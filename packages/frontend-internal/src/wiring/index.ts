@@ -14,7 +14,5 @@
  * limitations under the License.
  */
 
-export {
-  toInternalExtensionDefinition,
-  type InternalExtensionDefinition,
-} from './InternalExtensionDefinition';
+export { OpaqueExtensionDefinition } from './InternalExtensionDefinition';
+export { OpaqueFrontendPlugin } from './InternalFrontendPlugin';
