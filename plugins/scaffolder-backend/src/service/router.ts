@@ -804,7 +804,6 @@ export async function createRouter(
         workingDirectory,
         `dry-run-content-${dryRunId}`,
       );
-      console.log('Mark: contentsPath', contentsPath);
 
       const templateInfo = {
         entityRef: 'template:default/dry-run',
